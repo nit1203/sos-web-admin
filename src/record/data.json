@@ -1,0 +1,81 @@
+{
+  "collection": [
+    {
+      "id": "111",
+      "driver_name": "Driver",
+      "driver_number": "0000099999",
+      "customer_name": "Customer",
+      "customer_number": "9500604110",
+      "photo_url": "https://i.pravatar.cc/150?img=70",
+      "lat": "11.9396384",
+      "Lng": "79.8073618",
+      "broadcast_id": "a11b8b0a-bac3-44bc-9da7-30ee0d5aaf77",
+      "resource_url": "https://cdn.bambuser.net/broadcasts/a11b8b0a-bac3-44bc-9da7-30ee0d5aaf77?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1580795587&da_static=1&da_ttl=0&da_signature=cc2fc6d9cc926dcaab6281ae990477ae4273c3dd5f1449ee9d90a135baff4ab1",
+      "status": "1",
+      "delete_status": "0",
+      "created_at": "2020-02-04 05:53:07"
+    },
+    {
+      "id": "115",
+      "driver_name": "Tim George",
+      "driver_number": "(408) 555-0126",
+      "customer_name": "Nina Weaver",
+      "customer_number": "(201) 654-0345",
+      "photo_url": "http://www.profilepic.jpeg",
+      "lat": "11.939529418945",
+      "Lng": "79.807296571301",
+      "broadcast_id": "a1b0fa60-5521-4249-a3cc-4ca2020e1e8b",
+      "resource_url": "https://cdn.bambuser.net/broadcasts/a1b0fa60-5521-4249-a3cc-4ca2020e1e8b?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1581503446&da_static=1&da_ttl=0&da_signature=b950013d7b5c575eb6b8b6ef50a5ca9a1b6d49753656686c3021f96abba0d64f",
+      "status": "1",
+      "delete_status": "0",
+      "created_at": "2020-02-12 10:30:48"
+    },
+    {
+      "id": "116",
+      "driver_name": "Tim George",
+      "driver_number": "(408) 555-0126",
+      "customer_name": "Nina Weaver",
+      "customer_number": "(201) 654-0345",
+      "photo_url": "http://www.profilepic.jpeg",
+      "lat": "11.939498901367",
+      "Lng": "79.807723322408",
+      "broadcast_id": "417ab9e2-4334-4187-8dad-1fd5ca9c4011",
+      "resource_url": "https://cdn.bambuser.net/broadcasts/417ab9e2-4334-4187-8dad-1fd5ca9c4011?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1581695883&da_static=1&da_ttl=0&da_signature=98b7bded7a0e8212751389ff1e65bc9f707ca787f15ee88ea24427e1b4ee69e8",
+      "status": "1",
+      "delete_status": "0",
+      "created_at": "2020-02-14 15:58:06"
+    },
+    {
+      "id": "121",
+      "driver_name": "Tim George",
+      "driver_number": "(408) 555-0126",
+      "customer_name": "Nina Weaver",
+      "customer_number": "(201) 654-0345",
+      "photo_url": "http://www.profilepic.jpeg",
+      "lat": "28.412161785471",
+      "Lng": "77.043889856772",
+      "broadcast_id": "0536bf5b-3fa7-404a-8a1a-36ab795ab146",
+      "resource_url": "https://cdn.bambuser.net/broadcasts/0536bf5b-3fa7-404a-8a1a-36ab795ab146?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1582004253&da_static=1&da_ttl=0&da_signature=65c3e4db3cf89219bd7bfa7ec9d440115fe317b2fa443e8ff69e152bab0742d4",
+      "status": "1",
+      "delete_status": "0",
+      "created_at": "2020-02-18 05:37:36"
+    },
+    {
+      "id": "122",
+      "driver_name": "Tim George",
+      "driver_number": "(408) 555-0126",
+      "customer_name": "Nina Weaver",
+      "customer_number": "(201) 654-0345",
+      "photo_url": "http://www.profilepic.jpeg",
+      "lat": "28.41216037461",
+      "Lng": "77.043934275497",
+      "broadcast_id": "f679675b-5b78-4e32-be7a-8ed4969c55ef",
+      "resource_url": "https://cdn.bambuser.net/broadcasts/f679675b-5b78-4e32-be7a-8ed4969c55ef?da_signature_method=HMAC-SHA256&da_id=9e1b1e83-657d-7c83-b8e7-0b782ac9543a&da_timestamp=1582004424&da_static=1&da_ttl=0&da_signature=32569f0413b7f1f27e5ff88cd849a0b82ea27fe2f3d871d51a9412bfaf73ab7b",
+      "status": "1",
+      "delete_status": "0",
+      "created_at": "2020-02-18 05:40:26"
+    }
+  ],
+  "status": 200,
+  "message": "Live Stream Links"
+}

@@ -1,0 +1,16 @@
+.stadium{
+    flex-basis: calc(50% - 20px);
+    margin: 10px;
+    cursor: pointer;
+}
+.stadium:hover{
+    opacity: .8;
+}
+.stadium-picture{
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+.stadium-title{
+
+}
