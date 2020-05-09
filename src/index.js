@@ -35,7 +35,7 @@ ReactDOM.render(
         path="/admin/history"
         render={props => <AdminLayout {...props} />}
       />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Redirect from="/" to="/admin/sub-admin-login" />
     </Switch>
   </HashRouter>,
   document.getElementById("root")
