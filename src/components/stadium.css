@@ -1,16 +1,31 @@
-.stadium{
+.stadium {
     flex-basis: calc(50% - 20px);
     margin: 10px;
     cursor: pointer;
 }
-.stadium:hover{
+
+.stadium:hover {
     opacity: .8;
 }
-.stadium-picture{
+
+.stadium-picture {
     height: 200px;
     background-size: cover;
     background-position: center;
 }
-.stadium-title{
 
+.pull-left {
+    padding: 2.5px 8px;
+}
+
+.pull-right {
+    padding: 2.5px 8px;
+}
+
+.stadium-title {}
+
+.iframe {
+    border-radius: 5px;
+    border: 1px solid #d3d3d3;
+    margin-bottom: 10px;
 }

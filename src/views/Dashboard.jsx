@@ -6,6 +6,10 @@ import useSupercluster from "use-supercluster";
 import Stadium from "../components/stadium";
 import "./Dashboard.css";
 import axios from "axios";
+import ReactTables from "./Tables/ReactTables";
+import ExtendedTables from "./Tables/ExtendedTables";
+import RegularTables from "./Tables/RegularTables";
+import SOSCallList from "./Components/SOSCallList";
 
 const fetcher = (...args) => fetch(...args).then(response => response.json());
 
@@ -24,7 +28,7 @@ export default function Dashboard() {
   // useEffect(() => {
   //   document.getElementById("player").addEventListener("click");
   // }, []);
-  const sos = data && !error ? data.collection.slice(0, 2000) : [];
+  const sos = data && !error ? data.collection.slice(0, 4) : [];
   const points = sos.map(sosdata => ({
     type: "Feature",
     properties: {
@@ -85,20 +89,45 @@ export default function Dashboard() {
     <div className="main-content">
       <Grid fluid>
         {sos.length > 0 && (
-          <Row>
-            {sos.map(stadium => {
-              return (
-                <Col lg={4} sm={6} key={stadium.id}>
-                  <Stadium
-                    key={stadium.driver_name}
-                    stadium={stadium}
-                    url={stadium.resource_url}
-                    handleDriverNameClick={onDriverNameClick}
-                    handleMoveClick={onMoveToHistory}
-                    title={stadium.driver_name}
-                  ></Stadium>
-                </Col>
-              );
+          <Row className='justify-content-center'>
+            {sos.map((stadium, index) => {
+              console.log(index)
+              if (index == 3) {
+                return (
+                  <Col
+                    className="content-no-padding"
+                    style={{ maxWidth: '35%', height: '350px' }}
+                    lg={4} sm={6} key={stadium.id}>
+                    <Stadium
+                      style={{ height: '300px' }}
+                      iframeHeight="230px"
+                      key={stadium.driver_name}
+                      stadium={stadium}
+                      url={stadium.resource_url}
+                      handleDriverNameClick={onDriverNameClick}
+                      handleMoveClick={onMoveToHistory}
+                      title={stadium.driver_name}
+                    ></Stadium>
+                  </Col>
+                );
+              } else {
+                return (
+                  <Col
+                    className="content-no-padding"
+                    style={{ minWidth: '20%' }}
+                    lg={2} sm={3} key={stadium.id}>
+                    <Stadium
+                      iframeHeight="170px"
+                      key={stadium.driver_name}
+                      stadium={stadium}
+                      url={stadium.resource_url}
+                      handleDriverNameClick={onDriverNameClick}
+                      handleMoveClick={onMoveToHistory}
+                      title={stadium.driver_name}
+                    ></Stadium>
+                  </Col>
+                );
+              }
             })}
           </Row>
         )}
@@ -117,6 +146,13 @@ export default function Dashboard() {
             </Col>
           </Row>
         )}
+        <Row>
+          <Col lg={12} sm={12}>
+            {
+              sos.length > 0 && <SOSCallList sosData={sos[0]} />
+            }
+          </Col>
+        </Row>
         <Row>
           <Col>
             <div style={{ height: "50vh", width: "100%" }}>
@@ -191,10 +227,10 @@ export default function Dashboard() {
                         {cluster.properties.sosId === selectedSta ? (
                           <img src="./car-01.png" alt="sos car" />
                         ) : (
-                          <>
-                            <img src="./car-04.png" alt="sos car" />
-                          </>
-                        )}
+                            <>
+                              <img src="./car-04.png" alt="sos car" />
+                            </>
+                          )}
                       </button>
                     </Marker>
                   );

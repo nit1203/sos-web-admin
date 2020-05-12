@@ -89,6 +89,7 @@ class Stadium extends React.Component {
   };
   render() {
     const title = this.props.stadium.driver_name;
+
     const URL = this.props.stadium.resource_url;
     const resourse = encodeURIComponent(URL);
     // const style = {
@@ -97,10 +98,14 @@ class Stadium extends React.Component {
     return (
       <>
         {this.state.alert}
-        <div className="stadium">
+        <div className="stadium">resourse
           {/* <div className="stadium-picture" style={style}></div> */}
-          <div className="stadium-picture">
+          <div className="stadium-picture"
+            style={this.props.style}
+          >
             <Iframe
+              height={this.props.iframeHeight}
+              className="iframe"
               url={`https://dist.bambuser.net/player/?resourceUri=${resourse}&autoplay=true`}
               allowfullscreen
               allow="autoplay"

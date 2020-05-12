@@ -15,6 +15,11 @@
   align-items: center;
 }
 
+.justify-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .crime-marker {
   background: none;
   border: none;
@@ -29,15 +34,28 @@
 }
 
 .justify-content-end {
+  display: flex;
   justify-content: flex-end;
+}
+
+.justify-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+
+.content-no-padding {
+  padding: 0px !important;
 }
 
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+
 .ml-2 {
   margin-left: 0.5rem;
 }
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -50,6 +68,12 @@
 .has-feedback.has-success label~.form-control-feedback {
   top: 50% !important;
 }
+
 .has-feedback.has-error label~.form-control-feedback {
   top: 40% !important;
+}
+
+
+.stadium iframe {
+  width: -webkit-fill-available;
 }
