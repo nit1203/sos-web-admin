@@ -46,7 +46,7 @@ function LoginPage(props) {
 
     console.log({ login })
     if (login) {
-      //  return props.history.push('/admin/dashboard')
+      return props.history.push('/admin/dashboard')
     }
     setTimeout(() => {
       setCardHidden(false);
