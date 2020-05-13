@@ -30,6 +30,7 @@ import avatar from "assets/img/default-avatar.png";
 import logo from "logo.svg";
 
 import routes from "routes.js";
+import { isLoggedIn } from "utils/auth";
 
 var ps;
 
@@ -122,11 +123,11 @@ class Sidebar extends Component {
                 <p>{prop.name}</p>
               </>
             ) : (
-              <>
-                <span className="sidebar-mini">{prop.mini}</span>
-                <span className="sidebar-normal">{prop.name}</span>
-              </>
-            )}
+                <>
+                  <span className="sidebar-mini">{prop.mini}</span>
+                  <span className="sidebar-normal">{prop.name}</span>
+                </>
+              )}
           </NavLink>
         </li>
       );
@@ -180,8 +181,8 @@ class Sidebar extends Component {
             style={{ backgroundImage: "url(" + this.props.image + ")" }}
           />
         ) : (
-          ""
-        )}
+            ""
+          )}
         <div className="logo">
           <a href="/" className="simple-text logo-mini" target="_blank">
             <div className="logo-img">
@@ -250,6 +251,27 @@ class Sidebar extends Component {
               with the speciffic parent button and with it's children which are the links
             */}
             {this.createLinks(routes)}
+
+
+            {
+              isLoggedIn().auth &&
+              <li >
+                <NavLink
+                  onClick={() => {
+                    localStorage.clear()
+                    this.props.history.push('/admin/sub-admin-login')
+                  }}
+                  className="nav-link"
+                  activeClassName="active"
+                >
+
+                  <>
+                    <i className='fa fa-sign-out' />
+                    <p>Logout</p>
+                  </>
+                </NavLink>
+              </li>
+            }
           </ul>
         </div>
       </div>

@@ -25,10 +25,12 @@ import Input from "views/Fields/Input";
 import Password from "views/Fields/Password";
 import { fetcher } from "utils/api";
 import Dashboard from "views/Dashboard";
+import { login } from "utils/auth";
+import { isLoggedIn } from "utils/auth";
 
-function LoginPage() {
+function LoginPage(props) {
   const [cardHidden, setCardHidden] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLogError, setIsLogError] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [formData, setFormData] = useState({
@@ -39,12 +41,19 @@ function LoginPage() {
     setFormData({ email: "", password: "" });
   };
   useEffect(() => {
+
+    const { auth: login } = isLoggedIn();
+
+    console.log({ login })
+    if (login) {
+      //  return props.history.push('/admin/dashboard')
+    }
     setTimeout(() => {
       setCardHidden(false);
     }, 700);
     const isAuth = localStorage.getItem("isAuth");
     if (isAuth) {
-      setIsLoggedIn(true);
+      //  setIsLoggedIn(true);
     }
   }, []);
   const handleInputFieldChange = ({ target: { name, value } }) => {
@@ -77,23 +86,35 @@ function LoginPage() {
       })
         .then((res) => {
           if (res.status) {
-            setIsLoggedIn(true);
+            //  setIsLoggedIn(true);
             clearFormData();
             localStorage.setItem("isAuth", JSON.str(res.collection[0]));
           } else {
             setIsLogError(true);
           }
         })
-        .catch((err) => {});
+        .catch((err) => { });
     }
   };
+
+
+
+  const customLogin = () => {
+    const response = login(formData.email, formData.password)
+    console.log(response)
+    if (response.auth) {
+      props.history.push('/admin/dashboard')
+    } else {
+      alert(response.message)
+    }
+  }
   const onSignOut = () => {
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
     localStorage.removeItem("isAuth");
   };
   const renderLoginContainer = () => (
     <Col className="mt-4" md={4} sm={6} mdOffset={4} smOffset={3}>
-      <form onSubmit={onLogin}>
+      <form >
         <Card
           hidden={cardHidden}
           textCenter
@@ -118,12 +139,16 @@ function LoginPage() {
               {isLogError ? (
                 <div className="text-danger">Unauthorized Resource</div>
               ) : (
-                false
-              )}
+                  false
+                )}
             </div>
           }
           legend={
-            <Button type="submit" bsStyle="info" fill wd>
+            <Button type="button"
+              onClick={() => {
+                customLogin()
+              }}
+              bsStyle="info" fill wd>
               Login
               <i className="fa fa-sign-in" />
             </Button>
@@ -143,7 +168,7 @@ function LoginPage() {
   );
   return (
     <Grid>
-      <Row>{isLoggedIn ? renderVideos() : renderLoginContainer()}</Row>
+      <Row>{isLoggedIn().auth ? renderVideos() : renderLoginContainer()}</Row>
     </Grid>
   );
 }

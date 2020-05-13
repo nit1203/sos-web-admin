@@ -25,6 +25,9 @@ import "assets/css/pe-icon-7-stroke.css";
 
 import AuthLayout from "layouts/Auth.jsx";
 import AdminLayout from "layouts/Admin.jsx";
+import Dashboard from "views/Dashboard";
+import ManageUsers from "views/ManageUsers";
+import History from "views/History";
 
 ReactDOM.render(
   <HashRouter>
@@ -34,6 +37,20 @@ ReactDOM.render(
       <Route
         path="/admin/history"
         render={props => <AdminLayout {...props} />}
+      />
+
+
+      <Route
+        path="/admin/history"
+        render={props => <History {...props} />}
+      />
+      <Route
+        path="/admin/dashboard"
+        render={props => <Dashboard {...props} />}
+      />
+      <Route
+        path="/admin/manage-sub-admin"
+        render={props => <ManageUsers {...props} />}
       />
       <Redirect from="/" to="/admin/sub-admin-login" />
     </Switch>

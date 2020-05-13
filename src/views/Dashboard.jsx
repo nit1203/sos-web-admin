@@ -10,17 +10,32 @@ import ReactTables from "./Tables/ReactTables";
 import ExtendedTables from "./Tables/ExtendedTables";
 import RegularTables from "./Tables/RegularTables";
 import SOSCallList from "./Components/SOSCallList";
+import { useEffect } from "react";
+import { isLoggedIn } from "utils/auth";
 
 const fetcher = (...args) => fetch(...args).then(response => response.json());
 
 const Marker = ({ children }) => children;
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const mapRef = useRef();
   const [bounds, setBounds] = useState(null);
+  const [auth, setAuth] = useState(false)
   const [selectedSta, setSelectedSta] = useState("");
   const [zoom, setZoom] = useState(10);
   const url = "http://13.59.160.163/sos-api/getcurrentstatus.php";
+
+  useEffect(() => {
+    const { auth: loggedIn } = isLoggedIn()
+    if (!loggedIn) {
+
+      return props.history.push('/admin/sub-admin-login')
+    } else {
+      setAuth(loggedIn)
+    }
+  }, []);
+
+
   const { data, error } = useSwr(url, {
     fetcher,
     refreshInterval: 200
