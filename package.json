@@ -6,6 +6,7 @@
     "axios": "^0.19.2",
     "bootstrap": "3.3.7",
     "chartist": "0.10.1",
+    "express": "^4.17.1",
     "formik": "^2.1.4",
     "google-map-react": "^1.1.6",
     "google-maps-react": "^2.0.2",
@@ -42,7 +43,8 @@
     "wnumb": "1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "dev": "react-scripts run",
+    "start": "node app.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

@@ -23,6 +23,7 @@ export class AuthRequired extends React.Component {
     }
     render() {
         if (!this.session.auth) {
+
             return (<Redirect to="/admin/sub-admin-login" />);
 
         } else {

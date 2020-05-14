@@ -108,6 +108,7 @@ function LoginPage(props) {
       alert(response.message)
     }
   }
+
   const onSignOut = () => {
     // setIsLoggedIn(false);
     localStorage.removeItem("isAuth");
