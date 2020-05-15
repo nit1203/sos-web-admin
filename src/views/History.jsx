@@ -5,13 +5,13 @@ import HistoryVideo from "../components/historyVideo";
 import "./Dashboard.css";
 import SOSCallList from "./Components/SOSCallList";
 import { isLoggedIn } from "utils/auth";
+import { API_URL } from "variables/constants";
 
 const fetcher = (...args) => fetch(...args).then(response => response.json());
 
 export default function History(props) {
-  const url = "http://13.59.160.163/sos-api/gethistorydata.php";
+  const url = `${API_URL}gethistorydata.php`;
   const [auth, setAuth] = useState(false)
-
 
 
   useEffect(() => {
