@@ -12,6 +12,7 @@ import RegularTables from "./Tables/RegularTables";
 import SOSCallList from "./Components/SOSCallList";
 import { useEffect } from "react";
 import { isLoggedIn } from "utils/auth";
+import { API_URL } from "variables/constants";
 
 const fetcher = (...args) => fetch(...args).then(response => response.json());
 
@@ -23,7 +24,7 @@ export default function Dashboard(props) {
   const [auth, setAuth] = useState(false)
   const [selectedSta, setSelectedSta] = useState("");
   const [zoom, setZoom] = useState(10);
-  const url = "http://13.59.160.163/sos-api/getcurrentstatus.php";
+  const url = `${API_URL}getcurrentstatus.php`;
 
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
@@ -83,7 +84,7 @@ export default function Dashboard(props) {
     };
     axios
       .post(
-        `http://13.59.160.163/sos-api/updaterecord.php`,
+        `${API_URL}updaterecord.php`,
         {
           broadcast_id: event.broadcast_id
         },

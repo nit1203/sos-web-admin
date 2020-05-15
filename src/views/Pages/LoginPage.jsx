@@ -75,7 +75,7 @@ function LoginPage(props) {
   };
 
   const onLogin = (event) => {
-    event.preventDefault();
+    // event.preventDefault();
     setIsLogError(false);
     const { isError } = checkValidation();
     if (!isError) {
@@ -88,7 +88,13 @@ function LoginPage(props) {
           if (res.status) {
             //  setIsLoggedIn(true);
             clearFormData();
-            localStorage.setItem("isAuth", JSON.str(res.collection[0]));
+
+            window.localStorage.setItem('_auth', JSON.stringify({
+              username: formData.email,
+              token: `${formData.email}${Date.now()}`
+            }))
+            props.history.push('/admin/dashboard')
+            // localStorage.setItem("isAuth", JSON.str(res.collection[0]));
           } else {
             setIsLogError(true);
           }
