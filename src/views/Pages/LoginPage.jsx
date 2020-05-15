@@ -87,12 +87,15 @@ function LoginPage(props) {
         .then((res) => {
           if (res.status) {
             //  setIsLoggedIn(true);
-            clearFormData();
+
 
             window.localStorage.setItem('_auth', JSON.stringify({
               username: formData.email,
               token: `${formData.email}${Date.now()}`
             }))
+
+
+            clearFormData();
             props.history.push('/admin/dashboard')
             // localStorage.setItem("isAuth", JSON.str(res.collection[0]));
           } else {
@@ -153,7 +156,7 @@ function LoginPage(props) {
           legend={
             <Button type="button"
               onClick={() => {
-                customLogin()
+                onLogin()
               }}
               bsStyle="info" fill wd>
               Login

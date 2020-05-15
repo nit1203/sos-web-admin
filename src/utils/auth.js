@@ -1,7 +1,7 @@
 export const isLoggedIn = () => {
     const auth = JSON.parse(window.localStorage.getItem('_auth'))
 
-    if (auth && (auth.username === 'admin' && auth.token)) {
+    if (auth && (auth.username && auth.token)) {
         return {
             auth: true
         }
