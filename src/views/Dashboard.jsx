@@ -165,7 +165,9 @@ export default function Dashboard(props) {
         <Row>
           <Col lg={12} sm={12}>
             {
-              sos.length > 0 && <SOSCallList sosData={sos[0]} />
+              sos.length > 0 && <SOSCallList
+                title="Latest SOS calls"
+                data={data.collection.slice(0, 10)} />
             }
           </Col>
         </Row>

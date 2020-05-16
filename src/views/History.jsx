@@ -64,7 +64,9 @@ export default function History(props) {
                     );
                   })}
                 </Row> : <Row>
-                    <SOSCallList />
+                    <SOSCallList
+                      title="SOS call history"
+                      data={sos} />
                   </Row>
               }
             </Grid>

@@ -25,7 +25,11 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import { sosData } from "views/sos-seeder";
 import { columns } from "views/sos-seeder";
 import Iframe from "react-iframe";
+import Geocode from "react-geocode";
 
+Geocode.setApiKey('AIzaSyAzCafeUfnPBWfcu0lY9bVghgADgFAnqYQ');
+Geocode.setLanguage("en");
+Geocode.setRegion("es");
 const dataTable = [
   ["Tiger Nixon", "System Architect", "Edinburgh", "61"],
   ["Garrett Winters", "Accountant", "Tokyo", "63"],
@@ -75,115 +79,254 @@ class SOSCallList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: sosData.map((prop, key) => {
-        return {
-          id: key,
-          sosUrl: this.props.sosData ?
-            this.props.sosData.resource_url : '',
-          name: prop['name'],
-          type: prop['type'],
-          time: prop['time'],
-          country: prop['country'],
-          state: prop['state'],
-          city: prop['city'],
-          tripNumber: prop['tripNumber'],
-          actions: (
-            // we've added some custom button actions
-            <div className="actions-center">
-              {/* use this button to add a like kind of action */}
-              {/* <Button
-                onClick={() => {
-                  let obj = this.state.data.find(o => o.id === key);
-                  alert(
-                    "You've clicked LIKE button on \n{ \nName: " +
-                    obj.name +
-                    ", \ntype: " +
-                    obj.type +
-                    ", \ntime: " +
-                    obj.time +
-                    ", \ncountry: " +
-                    obj.country +
-                    "\n}."
-                  );
-                }}
-                bsStyle="info"
-                simple
-                icon
-              >
-                <i className="fa fa-heart" />
-              </Button>{" "} */}
-              {/* use this button to add a edit kind of action */}
-              {/* <Button
-                onClick={() => {
-                  let obj = this.state.data.find(o => o.id === key);
-                  alert(
-                    "You've clicked EDIT button on \n{ \nName: " +
-                    obj.name +
-                    ", \ntype: " +
-                    obj.type +
-                    ", \ntime: " +
-                    obj.time +
-                    ", \ncountry: " +
-                    obj.country +
-                    "\n}."
-                  );
-                }}
-                bsStyle="warning"
-                simple
-                icon
-              >
-                <i className="fa fa-edit" />
-              </Button>{" "} */}
-              {/* use this button to remove the data row */}
-              {/* <Button
-                onClick={() => {
-                  var data = this.state.data;
-                  data.find((o, i) => {
-                    if (o.id === key) {
-                      // here you should add some custom code so you can delete the data
-                      // from this component and from your server as well
-                      data.splice(i, 1);
-                      console.log(data);
-                      return true;
-                    }
-                    return false;
-                  });
-                  this.setState({ data: data });
-                }}
-                bsStyle="danger"
-                simple
-                icon
-              >
-                <i className="fa fa-times" />
-              </Button>{" "} */}
-              <Button
-                onClick={() => {
-                  var data = this.state.data;
-                  data.find((o, i) => {
-                    if (o.id === key) {
-                      // here you should add some custom code so you can delete the data
-                      // from this component and from your server as well
-                      console.log(o.sosUrl)
-                      this.setState({ sosUrl: o.sosUrl })
-                      this.handleShow()
-                    }
-                    return false;
-                  });
-                  //this.setState({ data: data });
-                }}
-                bsStyle="danger"
-                simple
-                icon
-              >
-                <i className="fa fa-play" />
-              </Button>{" "}
-            </div>
-          )
-        };
-      }),
+      data: [],
       show: false,
       sosUrl: ''
     };
+  }
+
+  componentDidMount() {
+    if (this.props.data) {
+      this.setState({
+        data: this.props.data.map((prop, key) => {
+          return {
+            id: key,
+            sosUrl: prop.resource_url,
+            customer_name: prop['customer_name'],
+            driver_name: prop['driver_name'],
+            type: prop['type'],
+            time: prop['created_at'],
+            country: prop['country'],
+            state: prop['state'],
+            city: prop['city'],
+            tripNumber: prop['tripNumber'],
+            actions: (
+              // we've added some custom button actions
+              <div className="actions-center">
+                {/* use this button to add a like kind of action */}
+                {/* <Button
+                  onClick={() => {
+                    let obj = this.state.data.find(o => o.id === key);
+                    alert(
+                      "You've clicked LIKE button on \n{ \nName: " +
+                      obj.name +
+                      ", \ntype: " +
+                      obj.type +
+                      ", \ntime: " +
+                      obj.time +
+                      ", \ncountry: " +
+                      obj.country +
+                      "\n}."
+                    );
+                  }}
+                  bsStyle="info"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-heart" />
+                </Button>{" "} */}
+                {/* use this button to add a edit kind of action */}
+                {/* <Button
+                  onClick={() => {
+                    let obj = this.state.data.find(o => o.id === key);
+                    alert(
+                      "You've clicked EDIT button on \n{ \nName: " +
+                      obj.name +
+                      ", \ntype: " +
+                      obj.type +
+                      ", \ntime: " +
+                      obj.time +
+                      ", \ncountry: " +
+                      obj.country +
+                      "\n}."
+                    );
+                  }}
+                  bsStyle="warning"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-edit" />
+                </Button>{" "} */}
+                {/* use this button to remove the data row */}
+                {/* <Button
+                  onClick={() => {
+                    var data = this.state.data;
+                    data.find((o, i) => {
+                      if (o.id === key) {
+                        // here you should add some custom code so you can delete the data
+                        // from this component and from your server as well
+                        data.splice(i, 1);
+                        console.log(data);
+                        return true;
+                      }
+                      return false;
+                    });
+                    this.setState({ data: data });
+                  }}
+                  bsStyle="danger"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-times" />
+                </Button>{" "} */}
+                <Button
+                  onClick={() => {
+                    var data = this.state.data;
+                    data.find((o, i) => {
+                      if (o.id === key) {
+                        // here you should add some custom code so you can delete the data
+                        // from this component and from your server as well
+                        console.log(o.sosUrl)
+                        this.setState({ sosUrl: o.sosUrl })
+                        this.handleShow()
+                      }
+                      return false;
+                    });
+                    //this.setState({ data: data });
+                  }}
+                  bsStyle="danger"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-play" />
+                </Button>{" "}
+              </div>
+            )
+          };
+        })
+      })
+    }
+  }
+
+
+  getGeoCode = (lat, lan) => {
+    Geocode.fromLatLng(lat, lan).then(
+      response => {
+        const address = response.results[0];
+        console.log(address);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+  componentWillReceiveProps(nextProps, nextContext) {
+    console.log({ nextProps })
+
+    // nextProps.data.slice(0, 10).map(prop => {
+    //   this.getGeoCode(prop.lat, prop.Lng)
+    // })
+    if (nextProps.data) {
+      this.setState({
+        data: nextProps.data.map((prop, key) => {
+          return {
+            id: key,
+            sosUrl: prop.resource_url,
+            customer_name: prop['customer_name'],
+            driver_name: prop['driver_name'],
+            type: prop['type'],
+            time: prop['created_at'],
+            country: prop['country'],
+            state: prop['state'],
+            city: prop['city'],
+            tripNumber: prop['tripNumber'],
+            actions: (
+              // we've added some custom button actions
+              <div className="actions-center">
+                {/* use this button to add a like kind of action */}
+                {/* <Button
+                  onClick={() => {
+                    let obj = this.state.data.find(o => o.id === key);
+                    alert(
+                      "You've clicked LIKE button on \n{ \nName: " +
+                      obj.name +
+                      ", \ntype: " +
+                      obj.type +
+                      ", \ntime: " +
+                      obj.time +
+                      ", \ncountry: " +
+                      obj.country +
+                      "\n}."
+                    );
+                  }}
+                  bsStyle="info"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-heart" />
+                </Button>{" "} */}
+                {/* use this button to add a edit kind of action */}
+                {/* <Button
+                  onClick={() => {
+                    let obj = this.state.data.find(o => o.id === key);
+                    alert(
+                      "You've clicked EDIT button on \n{ \nName: " +
+                      obj.name +
+                      ", \ntype: " +
+                      obj.type +
+                      ", \ntime: " +
+                      obj.time +
+                      ", \ncountry: " +
+                      obj.country +
+                      "\n}."
+                    );
+                  }}
+                  bsStyle="warning"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-edit" />
+                </Button>{" "} */}
+                {/* use this button to remove the data row */}
+                {/* <Button
+                  onClick={() => {
+                    var data = this.state.data;
+                    data.find((o, i) => {
+                      if (o.id === key) {
+                        // here you should add some custom code so you can delete the data
+                        // from this component and from your server as well
+                        data.splice(i, 1);
+                        console.log(data);
+                        return true;
+                      }
+                      return false;
+                    });
+                    this.setState({ data: data });
+                  }}
+                  bsStyle="danger"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-times" />
+                </Button>{" "} */}
+                <Button
+                  onClick={() => {
+                    var data = this.state.data;
+                    data.find((o, i) => {
+                      if (o.id === key) {
+                        // here you should add some custom code so you can delete the data
+                        // from this component and from your server as well
+                        console.log(o.sosUrl)
+                        this.setState({ sosUrl: o.sosUrl })
+                        this.handleShow()
+                      }
+                      return false;
+                    });
+                    //this.setState({ data: data });
+                  }}
+                  bsStyle="danger"
+                  simple
+                  icon
+                >
+                  <i className="fa fa-play" />
+                </Button>{" "}
+              </div>
+            )
+          };
+        })
+      })
+    }
+
   }
 
   handleClose = () => this.setState({ sosUrl: '', show: false });
@@ -206,7 +349,7 @@ class SOSCallList extends Component {
         <Grid fluid>
           <Row>
             <Col md={12}>
-              <h4 className="title">Latest SOS calls</h4>
+              <h4 className="title">{this.props.title}</h4>
               <Card
                 title=""
                 content={
@@ -223,7 +366,7 @@ class SOSCallList extends Component {
                         filterable: true
                       }
                     ]}
-                    defaultPageSize={5}
+                    defaultPageSize={10}
                     showPaginationTop={false}
                     showPaginationBottom={true}
                     className="-striped -highlight"

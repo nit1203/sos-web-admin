@@ -23,8 +23,12 @@ const sosData = [
 
 const columns = [
     {
-        Header: "Name",
-        accessor: "name"
+        Header: "DriverName",
+        accessor: "driver_name"
+    },
+    {
+        Header: "CustomerName",
+        accessor: "customer_name"
     },
     {
         Header: "Type",
