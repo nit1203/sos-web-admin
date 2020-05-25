@@ -88,10 +88,11 @@ function LoginPage(props) {
           if (res.status) {
             //  setIsLoggedIn(true);
 
-
+            console.log(res)
             window.localStorage.setItem('_auth', JSON.stringify({
-              username: formData.email,
-              token: `${formData.email}${Date.now()}`
+              username: res.collection[0].user_email_id,
+              token: `${formData.email}${Date.now()}`,
+              privileges: res.collection[0].user_privileges
             }))
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Grid, Row, Col, FormGroup } from "react-bootstrap";
+import { Grid, Row, Col, FormGroup, ControlLabel } from "react-bootstrap";
 import NotificationSystem from "react-notification-system";
 import qs from "qs";
 
@@ -7,10 +7,12 @@ import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import Checkbox from "components/CustomCheckbox/CustomCheckbox.jsx";
 
+import * as _ from 'lodash';
 import "./Dashboard.css";
 import Password from "./Fields/Password";
 import Input from "./Fields/Input";
 import Select from "./Fields/Select";
+import ReactSelect from 'react-select'
 import { fetcher } from "utils/api";
 
 function AdminForm({ match, history }) {
@@ -20,6 +22,7 @@ function AdminForm({ match, history }) {
     cityid: "",
     conf_password: "",
     isUpdatePwd: false,
+    selectedPrivileges: []
   };
   const [isEdit, setIsEdit] = useState(false);
   const [cityLookup, setCityLookup] = useState([]);
@@ -45,7 +48,7 @@ function AdminForm({ match, history }) {
           getAdminData(match.params.admin_id, lookup);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }, [match.params.admin_id]);
   useEffect(() => {
     getCityLookup();
@@ -69,9 +72,14 @@ function AdminForm({ match, history }) {
         const selectedCities = lookup.filter((city) =>
           res.city_code.includes(city.value.trim())
         );
-        setFormData({ email: res.user_email_id, cityid: selectedCities });
+
+        const mapPrivilages = (data) => {
+          let d = JSON.parse(data).map(d => ({ value: d, label: _.capitalize(d) }))
+          return d
+        }
+        setFormData({ ...formData, email: res.user_email_id, cityid: selectedCities, selectedPrivileges: mapPrivilages(res.user_privileges) });
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
   const handleInputFieldChange = ({ target: { name, value } }) => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
@@ -131,10 +139,12 @@ function AdminForm({ match, history }) {
         email: formData.email,
         password: formData.password,
         cityid: formData.cityid.map((city) => city.value).join(),
+        privileges: JSON.stringify(formData.selectedPrivileges.map(privilege => privilege['value']))
       };
       if (isEdit) {
         bodyData = {
           cityid: formData.cityid.map((city) => city.value).join(),
+          privileges: JSON.stringify(formData.selectedPrivileges.map(privilege => privilege['value']))
         };
         if (formData.isUpdatePwd) {
           bodyData = {
@@ -232,6 +242,18 @@ function AdminForm({ match, history }) {
       </>
     );
   };
+
+  const options = [
+
+    { value: 'download', label: 'Download' },
+    { value: 'archive', label: 'Archive' },
+    { value: 'create', label: 'Create' },
+  ];
+
+  const handleChange = selectedPrivileges => {
+    setFormData({ ...formData, selectedPrivileges });
+    console.log(`Option selected:`, selectedPrivileges);
+  };
   return (
     <div className="main-content">
       <NotificationSystem ref={notificationSystem} />
@@ -263,6 +285,19 @@ function AdminForm({ match, history }) {
                       placeholder="Choose City"
                       dataSource={cityLookup}
                     />
+                    <FormGroup>
+                      <ControlLabel>
+                        Set Privileges
+                      </ControlLabel>
+                      <ReactSelect
+                        isMulti={true}
+                        value={formData.selectedPrivileges}
+                        onChange={handleChange}
+                        options={options}
+                      />
+                    </FormGroup>
+
+
                     {isEdit ? renderUpdatePassword() : null}
                   </>
 

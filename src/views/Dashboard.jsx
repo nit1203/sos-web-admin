@@ -26,13 +26,16 @@ export default function Dashboard(props) {
   const [zoom, setZoom] = useState(10);
   const url = `${API_URL}getcurrentstatus.php`;
 
+
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
     if (!loggedIn) {
 
       return props.history.push('/admin/sub-admin-login')
     } else {
+
       setAuth(loggedIn)
+      //   
     }
   }, []);
 

@@ -26,6 +26,10 @@ import { sosData } from "views/sos-seeder";
 import { columns } from "views/sos-seeder";
 import Iframe from "react-iframe";
 import Geocode from "react-geocode";
+import { fetcher } from "utils/api";
+import qs from "qs";
+import Axios from "axios";
+import { API_URL } from '../../variables/constants';
 
 Geocode.setApiKey('AIzaSyAzCafeUfnPBWfcu0lY9bVghgADgFAnqYQ');
 Geocode.setLanguage("en");
@@ -81,7 +85,8 @@ class SOSCallList extends Component {
     this.state = {
       data: [],
       show: false,
-      sosUrl: ''
+      sosUrl: '',
+      id: ''
     };
   }
 
@@ -90,7 +95,7 @@ class SOSCallList extends Component {
       this.setState({
         data: this.props.data.map((prop, key) => {
           return {
-            id: key,
+            id: prop['id'],
             sosUrl: prop.resource_url,
             customer_name: prop['customer_name'],
             driver_name: prop['driver_name'],
@@ -176,8 +181,8 @@ class SOSCallList extends Component {
                       if (o.id === key) {
                         // here you should add some custom code so you can delete the data
                         // from this component and from your server as well
-                        console.log(o.sosUrl)
-                        this.setState({ sosUrl: o.sosUrl })
+                        console.log(o.sosUrl, o)
+                        this.setState({ sosUrl: o.sosUrl, id: o.id })
                         this.handleShow()
                       }
                       return false;
@@ -220,7 +225,7 @@ class SOSCallList extends Component {
       this.setState({
         data: nextProps.data.map((prop, key) => {
           return {
-            id: key,
+            id: prop['id'],
             sosUrl: prop.resource_url,
             customer_name: prop['customer_name'],
             driver_name: prop['driver_name'],
@@ -303,11 +308,11 @@ class SOSCallList extends Component {
                   onClick={() => {
                     var data = this.state.data;
                     data.find((o, i) => {
-                      if (o.id === key) {
+                      if (o.id === prop['id']) {
                         // here you should add some custom code so you can delete the data
                         // from this component and from your server as well
                         console.log(o.sosUrl)
-                        this.setState({ sosUrl: o.sosUrl })
+                        this.setState({ sosUrl: o.sosUrl, id: o.id })
                         this.handleShow()
                       }
                       return false;
@@ -329,7 +334,7 @@ class SOSCallList extends Component {
 
   }
 
-  handleClose = () => this.setState({ sosUrl: '', show: false });
+  handleClose = () => this.setState({ sosUrl: '', id: '', show: false });
   handleShow = () => this.setState({ show: true });
 
 
@@ -341,6 +346,43 @@ class SOSCallList extends Component {
         :
         true
     );
+  }
+
+  addToArchive = () => {
+    // fetcher({
+    //   url: 'updateArchiveList.php',
+    //   method: "post",
+    //   type: "json",
+    //   body: {
+    //     history_id: {
+    //       Archive: [this.state.id]
+    //     }
+    //   },
+
+    // })
+    var xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('history_id', {
+      Archive: ([parseInt(this.state.id)])
+    });
+
+    xhr.open('POST', `${API_URL}updateArchiveList.php`, true);
+
+    // LINE ADDED
+    xhr.setRequestHeader("Content-Type", "multipart/form-data");
+
+    xhr.send(formData);
+    // console.log((formData), null, 2)
+
+    // Axios.post(`${API_URL}updateArchiveList.php`, formData, {
+    //   headers: {
+    //     'Content-Type': 'multipart/form-data'
+    //   }
+    // }).then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   }
 
   render() {
@@ -385,14 +427,16 @@ class SOSCallList extends Component {
                 <Iframe
                   className="modal-iframe"
                   url={`https://dist.bambuser.net/player/?resourceUri=${
-                    encodeURIComponent(this.state.sosUrl)}&autoplay=true`}
-                  allowfullscreen
+                    encodeURIComponent(this.state.sosUrl)}&autoplay=true&controls=true`}
+                  allowfullscreen={true}
                   allow="autoplay"
                 />
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={this.handleClose}>
                   Close
+                </Button> <Button variant="secondary" onClick={this.addToArchive}>
+                  Add To Archive
                 </Button>
               </Modal.Footer>
             </Modal>

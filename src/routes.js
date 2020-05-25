@@ -19,7 +19,9 @@ import History from "views/History.jsx";
 import ManageUsers from "views/ManageUsers.jsx";
 import AdminForm from "views/AdminForm";
 import LoginPage from "views/Pages/LoginPage";
+import Archive from "views/Archive";
 
+console.log(localStorage.getItem('_auth'))
 var routes = [
   {
     path: "/dashboard",
@@ -34,6 +36,13 @@ var routes = [
     name: "History",
     icon: "pe-7s-graph",
     component: History
+  },
+  {
+    path: "/archive",
+    layout: "/admin",
+    name: "Archive",
+    icon: "pe-7s-graph",
+    component: Archive
   },
   {
     path: "/manage-sub-admin",
@@ -57,5 +66,20 @@ var routes = [
     icon: "pe-7s-door-lock",
     component: LoginPage
   }
-];
+].filter(route => {
+  // const _auth = JSON.parse(localStorage.getItem('_auth'))
+  // console.log(_auth)
+  // if (_auth && _auth.privileges) {
+  //   let roles = JSON.parse(_auth.privileges);
+
+  //   if (roles.includes('download') && roles.includes('create') && roles.includes('archive')) {
+  //     return true
+  //   } else if (!roles.includes('create')) {
+  //     return route.path !== '/manage-sub-admin'
+  //   }
+  // } else 
+  {
+    return true
+  }
+});
 export default routes;

@@ -259,7 +259,7 @@ class Sidebar extends Component {
                 <NavLink
                   onClick={() => {
                     localStorage.clear()
-                    this.props.history.push('/admin/sub-admin-login')
+                    this.props.history.push('/')
                   }}
                   className="nav-link"
                   activeClassName="active"
