@@ -447,7 +447,7 @@ class SOSCallList extends Component {
                   Close
                 </Button>
                 {
-                  !this.props.archive && <Button variant="secondary" onClick={this.addToArchive}>
+                  (!this.props.archive && this.props.setToArchive) && <Button variant="secondary" onClick={this.addToArchive}>
                     Add To Archive
                 </Button>
                 }

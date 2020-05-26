@@ -12,13 +12,19 @@ const fetcher = (...args) => fetch(...args).then(response => response.json());
 export default function History(props) {
   const url = `${API_URL}gethistorydata.php`;
   const [auth, setAuth] = useState(false)
+  const [setToArchive, setSetToArchive] = useState(false)
 
 
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
 
+    const _auth = localStorage.getItem('_auth')
+    const parsed = JSON.parse(_auth)
 
-    if (!loggedIn) {
+    const authAndParsed = _auth && Boolean(parsed.privileges);
+
+    if (!loggedIn && authAndParsed) {
+      setSetToArchive(parsed.privileges.includes('create'))
       return props.history.push('/admin/sub-admin-login')
     } else {
       setAuth(loggedIn)
@@ -67,6 +73,7 @@ export default function History(props) {
                   })}
                 </Row> : <Row>
                     <SOSCallList
+                      setToArchive={setToArchive}
                       title="SOS call history"
                       data={sos} />
                   </Row>
