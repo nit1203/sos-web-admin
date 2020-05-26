@@ -32,17 +32,24 @@ function ManageUsers(props) {
     const _auth = localStorage.getItem('_auth')
     const parsed = JSON.parse(_auth)
 
+
+
+
+
     const authAndParsed = _auth && Boolean(parsed.privileges);
+    if (!loggedIn && !authAndParsed) {
+      return props.history.push('/admin/sub-admin-login')
+    }
     if (loggedIn && authAndParsed) {
       let hasCreateRight = parsed.privileges.includes('create')
-      if (!loggedIn && !authAndParsed) {
+      if (!Boolean(hasCreateRight)) {
         return props.history.push('/admin/sub-admin-login')
-      } else if (!Boolean(hasCreateRight)) {
-        return props.history.push('/admin/sub-admin-login')
+      } else {
+        setAuth(loggedIn)
+        getUsers();
       }
     } else {
-      setAuth(auth)
-      getUsers();
+      return props.history.push('/admin/sub-admin-login')
     }
 
 

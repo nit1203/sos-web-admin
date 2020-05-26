@@ -65,6 +65,7 @@ function AdminForm({ match, history }) {
     })
       .then((resp) => {
         let res = resp[0];
+        console.log(res.user_email_id)
         res = {
           ...res,
           city_code: res.city_code.replace(/\s/g, "").split(","),
@@ -77,7 +78,9 @@ function AdminForm({ match, history }) {
           let d = JSON.parse(data).map(d => ({ value: d, label: _.capitalize(d) }))
           return d
         }
-        setFormData({ ...formData, email: res.user_email_id, cityid: selectedCities, selectedPrivileges: mapPrivilages(res.user_privileges) });
+        debugger
+        setFormData({ ...formData, email: res.user_email_id, cityid: selectedCities, selectedPrivileges: res.user_privileges ? mapPrivilages(res.user_privileges) : [] });
+        debugger
       })
       .catch((err) => { });
   };

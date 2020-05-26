@@ -11,22 +11,29 @@ const fetcher = (...args) => fetch(...args).then(response => response.json());
 
 export default function History(props) {
   const url = `${API_URL}gethistorydata.php`;
+
   const [auth, setAuth] = useState(false)
   const [setToArchive, setSetToArchive] = useState(false)
 
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
 
+    console.log(loggedIn)
+
     const _auth = localStorage.getItem('_auth')
     const parsed = JSON.parse(_auth)
 
     const authAndParsed = _auth && Boolean(parsed.privileges);
 
-    if (!loggedIn && authAndParsed) {
-      setSetToArchive(parsed.privileges.includes('create'))
-      return props.history.push('/admin/sub-admin-login')
-    } else {
+    if (loggedIn && authAndParsed) {
+      if (parsed.privileges.includes('archive')) {
+        setSetToArchive(parsed.privileges.includes('archive'))
+      }
       setAuth(loggedIn)
+    } else if (loggedIn) {
+      setAuth(loggedIn)
+    } else {
+      return props.history.push('/admin/sub-admin-login')
     }
   }, []);
 
@@ -34,7 +41,9 @@ export default function History(props) {
     fetcher,
     refreshInterval: 500
   });
-  const sos = data && !error ? data.collection : [];
+  console.log(data)
+  const sos = (data && !error) ? data.collection : [];
+  console.log(sos)
 
   const [isGrid, setIsGrid] = useState(false)
 

@@ -20,15 +20,17 @@ export default function Archive(props) {
     const parsed = JSON.parse(_auth)
 
     const authAndParsed = _auth && Boolean(parsed.privileges);
-    if (loggedIn && authAndParsed) {
-      let hasCreateRight = parsed.privileges.includes('create')
-      if (!loggedIn && !authAndParsed) {
-        return props.history.push('/admin/sub-admin-login')
-      } else if (!Boolean(hasCreateRight)) {
+
+    if (!loggedIn && !authAndParsed) {
+      return props.history.push('/admin/sub-admin-login')
+    }
+    if (loggedIn) {
+      if (parsed.privileges && parsed.privileges.includes('archive')) {
+        setAuth(loggedIn)
+      } else {
         return props.history.push('/admin/sub-admin-login')
       }
-    } else {
-      setAuth(loggedIn)
+
     }
   }, []);
 
