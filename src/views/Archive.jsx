@@ -16,8 +16,17 @@ export default function Archive(props) {
 
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
-    if (!loggedIn) {
-      return props.history.push('/admin/sub-admin-login')
+    const _auth = localStorage.getItem('_auth')
+    const parsed = JSON.parse(_auth)
+
+    const authAndParsed = _auth && Boolean(parsed.privileges);
+    if (loggedIn && authAndParsed) {
+      let hasCreateRight = parsed.privileges.includes('create')
+      if (!loggedIn && !authAndParsed) {
+        return props.history.push('/admin/sub-admin-login')
+      } else if (!Boolean(hasCreateRight)) {
+        return props.history.push('/admin/sub-admin-login')
+      }
     } else {
       setAuth(loggedIn)
     }
@@ -27,7 +36,7 @@ export default function Archive(props) {
     fetcher,
     refreshInterval: 500
   });
-  const sos = data && !error ? data.collection : [];
+  const sos = data && !error ? data.data : [];
 
   const [isGrid, setIsGrid] = useState(false)
 

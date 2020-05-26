@@ -19,7 +19,7 @@ import React, { Component } from "react";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 import { Grid, Row, Col, Modal } from "react-bootstrap";
-
+import NotificationSystem from "react-notification-system";
 import Card from "components/Card/Card.jsx";
 import Button from "components/CustomButton/CustomButton.jsx";
 import { sosData } from "views/sos-seeder";
@@ -88,8 +88,9 @@ class SOSCallList extends Component {
       sosUrl: '',
       id: ''
     };
-  }
 
+  }
+  notificationSystem = React.createRef(null);
   componentDidMount() {
     if (this.props.data) {
       this.setState({
@@ -334,6 +335,17 @@ class SOSCallList extends Component {
 
   }
 
+  handleNotificationClick = (notificationData) => {
+    this.notificationSystem.current.addNotification({
+      title: (
+        <div style={{ textAlign: "left" }}>{notificationData.message}</div>
+      ),
+      level: notificationData.level,
+      position: "tr",
+      autoDismiss: 15,
+    });
+  };
+
   handleClose = () => this.setState({ sosUrl: '', id: '', show: false });
   handleShow = () => this.setState({ show: true });
 
@@ -349,34 +361,31 @@ class SOSCallList extends Component {
   }
 
   addToArchive = () => {
-    // fetcher({
-    //   url: 'updateArchiveList.php',
-    //   method: "post",
-    //   type: "json",
-    //   body: {
-    //     history_id: {
-    //       Archive: [this.state.id]
-    //     }
-    //   },
 
-    // })
-    var xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    formData.append('history_id', {
-      Archive: ([parseInt(this.state.id)])
-    });
+    fetcher({
+      url: 'updateArchiveList.php',
+      method: "post",
+      type: "json",
+      body: qs.stringify({
+        history_id: JSON.stringify([parseInt(this.state.id)])
+      })
+    }).then(res => {
+      console.log(res)
+      this.handleNotificationClick({
+        level: "success",
+        message: 'Added to archive list.'
+      });
+    }).catch(err => {
+      console.log(err)
+    })
 
-    xhr.open('POST', `${API_URL}updateArchiveList.php`, true);
 
-    // LINE ADDED
-    xhr.setRequestHeader("Content-Type", "multipart/form-data");
 
-    xhr.send(formData);
-    // console.log((formData), null, 2)
-
-    // Axios.post(`${API_URL}updateArchiveList.php`, formData, {
+    // Axios.post(`${API_URL}updateArchiveList.php`, JSON.stringify({
+    //   history_id: [4, 5, 10]
+    // }), {
     //   headers: {
-    //     'Content-Type': 'multipart/form-data'
+    //     'Content-type': 'application/json'
     //   }
     // }).then(res => {
     //   console.log(res)
@@ -388,6 +397,7 @@ class SOSCallList extends Component {
   render() {
     return (
       <div className="main-content">
+        <NotificationSystem ref={this.notificationSystem} />
         <Grid fluid>
           <Row>
             <Col md={12}>
@@ -435,9 +445,12 @@ class SOSCallList extends Component {
               <Modal.Footer>
                 <Button variant="secondary" onClick={this.handleClose}>
                   Close
-                </Button> <Button variant="secondary" onClick={this.addToArchive}>
-                  Add To Archive
                 </Button>
+                {
+                  !this.props.archive && <Button variant="secondary" onClick={this.addToArchive}>
+                    Add To Archive
+                </Button>
+                }
               </Modal.Footer>
             </Modal>
           </Row>

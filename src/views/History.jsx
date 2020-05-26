@@ -16,6 +16,8 @@ export default function History(props) {
 
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
+
+
     if (!loggedIn) {
       return props.history.push('/admin/sub-admin-login')
     } else {

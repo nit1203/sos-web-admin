@@ -33,7 +33,7 @@ function ManageUsers(props) {
     const parsed = JSON.parse(_auth)
 
     const authAndParsed = _auth && Boolean(parsed.privileges);
-    if (authAndParsed) {
+    if (loggedIn && authAndParsed) {
       let hasCreateRight = parsed.privileges.includes('create')
       if (!loggedIn && !authAndParsed) {
         return props.history.push('/admin/sub-admin-login')
