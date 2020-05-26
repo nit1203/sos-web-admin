@@ -14,7 +14,6 @@ export default function History(props) {
   const [auth, setAuth] = useState(false)
   const [setToArchive, setSetToArchive] = useState(false)
 
-
   useEffect(() => {
     const { auth: loggedIn } = isLoggedIn()
 
