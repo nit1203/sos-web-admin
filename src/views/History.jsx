@@ -37,11 +37,11 @@ export default function History(props) {
     }
   }, []);
 
-  const { data, error } = useSwr(url, {
+  const { data, error, mutate, isValidating, revalidate } = useSwr(url, {
     fetcher,
-    refreshInterval: 500
+    refreshInterval: 5000
   });
-  console.log(data)
+  console.log(data, mutate, isValidating, revalidate)
   const sos = (data && !error) ? data.collection : [];
   console.log(sos)
 
@@ -81,6 +81,7 @@ export default function History(props) {
                   })}
                 </Row> : <Row>
                     <SOSCallList
+                      {...props}
                       setToArchive={setToArchive}
                       title="SOS call history"
                       data={sos} />

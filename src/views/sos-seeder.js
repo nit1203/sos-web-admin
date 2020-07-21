@@ -23,36 +23,42 @@ const sosData = [
 
 const columns = [
     {
-        Header: "DriverName",
-        accessor: "driver_name"
+        title: "DriverName",
+        field: "driver_name"
     },
     {
-        Header: "CustomerName",
-        accessor: "customer_name"
+        title: "CustomerName",
+        field: "customer_name"
     },
     {
-        Header: "Type",
-        accessor: "type"
+        title: "Type",
+        field: "type"
     },
     {
-        Header: "Time",
-        accessor: "time"
+        title: "Time",
+        field: "time"
     },
     {
-        Header: "Country",
-        accessor: "country"
+        title: "Country",
+        field: "country"
     }, {
-        Header: "State",
-        accessor: "state"
+        title: "State",
+        field: "state"
     },
     {
-        Header: "City",
-        accessor: "city"
+        title: "City",
+        field: "city"
     },
     {
-        Header: "Trip No.",
-        accessor: "tripNumber"
+        title: "Trip No.",
+        field: "tripNumber"
     },
+    {
+        title: 'Play Video',
+        field: 'actions',
+        sorting: false,
+        filtering: false
+    }
 
 ]
 

@@ -118,6 +118,7 @@ export default function Dashboard(props) {
                     style={{ maxWidth: '35%', height: '350px' }}
                     lg={4} sm={6} key={stadium.id}>
                     <Stadium
+                      {...props}
                       style={{ height: '300px' }}
                       iframeHeight="230px"
                       key={stadium.driver_name}
@@ -169,8 +170,12 @@ export default function Dashboard(props) {
           <Col lg={12} sm={12}>
             {
               sos.length > 0 && <SOSCallList
+                {...props}
                 title="Latest SOS calls"
-                data={data.collection.slice(0, 10)} />
+                setToHistory={true}
+                data={data.collection.slice(0, 10)}
+                handleMoveClick={onMoveToHistory}
+              />
             }
           </Col>
         </Row>

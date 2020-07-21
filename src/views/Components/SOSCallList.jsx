@@ -30,6 +30,45 @@ import { fetcher } from "utils/api";
 import qs from "qs";
 import Axios from "axios";
 import { API_URL } from '../../variables/constants';
+import Stadium from '../../components/stadium';
+import MaterialTable from "material-table";
+import AddBox from '@material-ui/icons/AddBox';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ViewColumn from '@material-ui/icons/ViewColumn';
+import { forwardRef } from 'react';
+import { ThemeProvider, createMuiTheme } from "@material-ui/core";
+
+const tableIcons = {
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+};
 
 Geocode.setApiKey('AIzaSyAzCafeUfnPBWfcu0lY9bVghgADgFAnqYQ');
 Geocode.setLanguage("en");
@@ -86,7 +125,8 @@ class SOSCallList extends Component {
       data: [],
       show: false,
       sosUrl: '',
-      id: ''
+      id: '',
+      stadium: {}
     };
 
   }
@@ -109,72 +149,6 @@ class SOSCallList extends Component {
             actions: (
               // we've added some custom button actions
               <div className="actions-center">
-                {/* use this button to add a like kind of action */}
-                {/* <Button
-                  onClick={() => {
-                    let obj = this.state.data.find(o => o.id === key);
-                    alert(
-                      "You've clicked LIKE button on \n{ \nName: " +
-                      obj.name +
-                      ", \ntype: " +
-                      obj.type +
-                      ", \ntime: " +
-                      obj.time +
-                      ", \ncountry: " +
-                      obj.country +
-                      "\n}."
-                    );
-                  }}
-                  bsStyle="info"
-                  simple
-                  icon
-                >
-                  <i className="fa fa-heart" />
-                </Button>{" "} */}
-                {/* use this button to add a edit kind of action */}
-                {/* <Button
-                  onClick={() => {
-                    let obj = this.state.data.find(o => o.id === key);
-                    alert(
-                      "You've clicked EDIT button on \n{ \nName: " +
-                      obj.name +
-                      ", \ntype: " +
-                      obj.type +
-                      ", \ntime: " +
-                      obj.time +
-                      ", \ncountry: " +
-                      obj.country +
-                      "\n}."
-                    );
-                  }}
-                  bsStyle="warning"
-                  simple
-                  icon
-                >
-                  <i className="fa fa-edit" />
-                </Button>{" "} */}
-                {/* use this button to remove the data row */}
-                {/* <Button
-                  onClick={() => {
-                    var data = this.state.data;
-                    data.find((o, i) => {
-                      if (o.id === key) {
-                        // here you should add some custom code so you can delete the data
-                        // from this component and from your server as well
-                        data.splice(i, 1);
-                        console.log(data);
-                        return true;
-                      }
-                      return false;
-                    });
-                    this.setState({ data: data });
-                  }}
-                  bsStyle="danger"
-                  simple
-                  icon
-                >
-                  <i className="fa fa-times" />
-                </Button>{" "} */}
                 <Button
                   onClick={() => {
                     var data = this.state.data;
@@ -222,7 +196,9 @@ class SOSCallList extends Component {
     // nextProps.data.slice(0, 10).map(prop => {
     //   this.getGeoCode(prop.lat, prop.Lng)
     // })
-    if (nextProps.data) {
+
+
+    if (nextProps.data && JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
       this.setState({
         data: nextProps.data.map((prop, key) => {
           return {
@@ -234,86 +210,26 @@ class SOSCallList extends Component {
             time: prop['created_at'],
             country: prop['country'],
             state: prop['state'],
+            broadcast_id: prop['broadcast_id'],
             city: prop['city'],
             tripNumber: prop['tripNumber'],
             actions: (
               // we've added some custom button actions
               <div className="actions-center">
-                {/* use this button to add a like kind of action */}
-                {/* <Button
-                  onClick={() => {
-                    let obj = this.state.data.find(o => o.id === key);
-                    alert(
-                      "You've clicked LIKE button on \n{ \nName: " +
-                      obj.name +
-                      ", \ntype: " +
-                      obj.type +
-                      ", \ntime: " +
-                      obj.time +
-                      ", \ncountry: " +
-                      obj.country +
-                      "\n}."
-                    );
-                  }}
-                  bsStyle="info"
-                  simple
-                  icon
-                >
-                  <i className="fa fa-heart" />
-                </Button>{" "} */}
-                {/* use this button to add a edit kind of action */}
-                {/* <Button
-                  onClick={() => {
-                    let obj = this.state.data.find(o => o.id === key);
-                    alert(
-                      "You've clicked EDIT button on \n{ \nName: " +
-                      obj.name +
-                      ", \ntype: " +
-                      obj.type +
-                      ", \ntime: " +
-                      obj.time +
-                      ", \ncountry: " +
-                      obj.country +
-                      "\n}."
-                    );
-                  }}
-                  bsStyle="warning"
-                  simple
-                  icon
-                >
-                  <i className="fa fa-edit" />
-                </Button>{" "} */}
-                {/* use this button to remove the data row */}
-                {/* <Button
-                  onClick={() => {
-                    var data = this.state.data;
-                    data.find((o, i) => {
-                      if (o.id === key) {
-                        // here you should add some custom code so you can delete the data
-                        // from this component and from your server as well
-                        data.splice(i, 1);
-                        console.log(data);
-                        return true;
-                      }
-                      return false;
-                    });
-                    this.setState({ data: data });
-                  }}
-                  bsStyle="danger"
-                  simple
-                  icon
-                >
-                  <i className="fa fa-times" />
-                </Button>{" "} */}
                 <Button
                   onClick={() => {
                     var data = this.state.data;
                     data.find((o, i) => {
+                      console.log(o.id, prop.id)
                       if (o.id === prop['id']) {
                         // here you should add some custom code so you can delete the data
                         // from this component and from your server as well
-                        console.log(o.sosUrl)
-                        this.setState({ sosUrl: o.sosUrl, id: o.id })
+                        console.log(o)
+                        this.setState({
+                          sosUrl: o.sosUrl, id: o.id,
+                          broadcast_id: o.broadcast_id,
+                          stadium: o
+                        })
                         this.handleShow()
                       }
                       return false;
@@ -346,8 +262,14 @@ class SOSCallList extends Component {
     });
   };
 
-  handleClose = () => this.setState({ sosUrl: '', id: '', show: false });
-  handleShow = () => this.setState({ show: true });
+  handleClose = () => this.setState({
+    sosUrl: '', id: '', show: false,
+    archive: false,
+    history: false
+  });
+  handleShow = () => this.setState({
+    show: true
+  });
 
 
   filterCaseInsensitive(filter, row) {
@@ -359,6 +281,32 @@ class SOSCallList extends Component {
         true
     );
   }
+
+
+  onMoveToHistory = event => {
+    console.log({ event })
+    const options = {
+      headers: { "Content-type": "application/json" }
+    };
+    Axios
+      .post(
+        `${API_URL}updaterecord.php`,
+        {
+          broadcast_id: this.state.broadcast_id
+        },
+        options
+      )
+      .then(
+        res => {
+          console.log(res);
+          console.log(res.data);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+  };
+
 
   addToArchive = () => {
 
@@ -394,6 +342,11 @@ class SOSCallList extends Component {
     // })
   }
 
+  selectRow = {
+    mode: 'checkbox',
+    clickToSelect: true
+  };
+
   render() {
     return (
       <div className="main-content">
@@ -405,24 +358,63 @@ class SOSCallList extends Component {
               <Card
                 title=""
                 content={
-                  <ReactTable
-                    data={this.state.data}
-                    filterable
-                    defaultFilterMethod={(filter, row) => this.filterCaseInsensitive(filter, row)}
-                    columns={[
-                      ...columns,
-                      {
-                        Header: "Play Video",
-                        accessor: "actions",
-                        sortable: true,
-                        filterable: true
-                      }
-                    ]}
-                    defaultPageSize={10}
-                    showPaginationTop={false}
-                    showPaginationBottom={true}
-                    className="-striped -highlight"
-                  />
+                  <ThemeProvider theme={createMuiTheme({
+                    typography: {
+                      fontSize: 18
+                    }
+                  })}>
+                    <MaterialTable
+
+                      data={this.state.data}
+                      columns={columns}
+                      title=''
+                      options={{
+                        selection: this.props.setToArchive ? true : this.props.setToHistory ? true : false,
+                        filtering: true,
+                        sorting: true,
+                        rowStyle: { fontSize: 16 }
+                      }}
+                      icons={tableIcons}
+                      actions={[
+                        this.props.setToArchive ? {
+                          icon: tableIcons.Delete,
+                          tooltip: 'Move to Archive',
+                          onClick: (evt, data) => console.log(data)
+                        } : this.props.setToHistory ? {
+                          icon: tableIcons.Delete,
+                          tooltip: 'Move to history'
+                          , onClick: (evt, data) => console.log(data)
+                        } : ''
+                      ]}
+                    />
+                  </ThemeProvider>
+                  // <ReactTable
+                  //   data={this.state.data}
+                  //   filterable
+                  //   options={{
+                  //     selection: true
+                  //   }}
+                  //   defaultFilterMethod={(filter, row) => this.filterCaseInsensitive(filter, row)}
+                  //   columns={[
+                  //     ...columns,
+                  //     {
+                  //       Header: "Play Video",
+                  //       accessor: "actions",
+                  //       sortable: true,
+                  //       filterable: true
+                  //     },
+                  //     {
+                  //       Header: 'Select All',
+                  //       accessor: "multiselect",
+                  //       sortable: false,
+                  //       filterable: false
+                  //     }
+                  //   ]}
+                  //   defaultPageSize={10}
+                  //   showPaginationTop={false}
+                  //   showPaginationBottom={true}
+                  //   className="-striped -highlight"
+                  // />
                 }
               />
             </Col>
@@ -434,24 +426,47 @@ class SOSCallList extends Component {
               <Modal.Body
                 className="modal-body"
               >
-                <Iframe
-                  className="modal-iframe"
-                  url={`https://dist.bambuser.net/player/?resourceUri=${
-                    encodeURIComponent(this.state.sosUrl)}&autoplay=true&controls=true`}
-                  allowfullscreen={true}
-                  allow="autoplay"
-                />
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={this.handleClose}>
-                  Close
-                </Button>
                 {
-                  (!this.props.archive && this.props.setToArchive) && <Button variant="secondary" onClick={this.addToArchive}>
-                    Add To Archive
-                </Button>
+                  (this.props.history && this.props.history.location.pathname === '/admin/dashboard') ?
+                    <Stadium
+                      style={{ height: '300px' }}
+                      iframeHeight="230px"
+                      // key={stadium.driver_name}
+                      stadium={this.state.stadium}
+                      url={this.state.sosUrl}
+                      //  handleDriverNameClick={onDriverNameClick}
+                      handleMoveClick={this.props.handleMoveClick}
+                      title={this.state.stadium.driver_name}
+                    ></Stadium> :
+                    <Iframe
+                      className="modal-iframe"
+                      url={`https://dist.bambuser.net/player/?resourceUri=${
+                        encodeURIComponent(this.state.sosUrl)}&autoplay=true&controls=true`}
+                      allowfullscreen={true}
+                      allow="autoplay"
+                    />
                 }
-              </Modal.Footer>
+
+
+
+              </Modal.Body>
+              {this.props.location && this.props.location.pathname === '/admin/history' &&
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={this.handleClose}>
+                    Close
+                </Button>
+                  {
+                    (this.props.setToHistory) && <Button variant="secondary" onClick={this.onMoveToHistory}>
+                      Move to history
+                </Button>
+                  }
+                  {
+                    (!this.props.archive && this.props.setToArchive) && <Button variant="secondary" onClick={this.addToArchive}>
+                      Add To Archive
+                </Button>
+                  }
+                </Modal.Footer>
+              }
             </Modal>
           </Row>
         </Grid>

@@ -90,7 +90,7 @@ class Stadium extends React.Component {
   render() {
     const title = this.props.stadium.driver_name;
 
-    const URL = this.props.stadium.resource_url;
+    const URL = this.props.stadium.resource_url || this.props.stadium.sosUrl;
     const resourse = encodeURIComponent(URL);
     // const style = {
     //   backgroundImage: "url('" + this.props.stadium.photo_url + "')"
